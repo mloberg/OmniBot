@@ -10,9 +10,10 @@
     "node": "*"
   },
   "main": "lib/robot",
-  "author": "Matthew Loberg (http://mlo.io/)",
+  "author": "Matthew Loberg <loberg.matt@gmail.com> (http://mlo.io/)",
   "description": "Simple chat robot.",
   "repository": {
-    "url": ""
+    "type": "git",
+    "url": "git@github.com:mloberg/OmniBot.git"
   }
 }
