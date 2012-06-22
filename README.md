@@ -1,6 +1,16 @@
-# Omnibot
+# OmniBot
 
-Usage:
+OmniBot is a simple chat bot.
 
-	var robot = require('omnibot');
-	var bot = new robot('name', 'connector', {connection_options})
+## Usage
+
+	var OmniBot = require('omnibot');
+
+	var bot = new OmniBot('Bot Name', 'connector', { options: 'connection options' });
+
+	bot.config.option = '';
+
+	bot.boot(function() {
+		bot.loadModules('modules');
+		bot.listen();
+	});

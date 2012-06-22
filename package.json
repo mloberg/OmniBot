@@ -11,7 +11,7 @@
   },
   "main": "lib/robot",
   "author": "Matthew Loberg (http://mlo.io/)",
-  "description": "Chat robot.",
+  "description": "Simple chat robot.",
   "repository": {
     "url": ""
   }
