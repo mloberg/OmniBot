@@ -4,7 +4,7 @@ title: Modules
 ---
 This is a list of official [OmniBot modules](https://github.com/mloberg/OmniBot-Modules). If you have written a module and feel it should be included in the official list, please open a [pull request](https://github.com/mloberg/OmniBot-Modules/pull/new/master).
 
-#### AWS Status
+#### [AWS Status](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/aws.js)
 
 Get the status of AWS.
 
@@ -12,7 +12,7 @@ Get the status of AWS.
 
 	(me) AWS status
 
-#### Funsies
+#### [Funsies](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/funsies.js)
 
 A collection of fun modules.
 
@@ -22,7 +22,7 @@ A collection of fun modules.
 	alot
 	chuck norris
 
-#### Google
+#### [Google](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/google.js)
 
 Get the first item on Google for a search term.
 
@@ -31,7 +31,7 @@ Get the first item on Google for a search term.
 	(me) google <term>
 	google <term>
 
-#### Hangman
+#### [Hangman](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/hangman.js)
 
 Play a game of hangman.
 
@@ -44,11 +44,11 @@ Play a game of hangman.
 
 	wordnikApiKey
 
-#### Join
+#### [Join](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/join.js)
 
 Welcome a user to the room.
 
-#### Math
+#### [Math](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/math.js)
 
 The the value of a math equation.
 
@@ -56,7 +56,7 @@ The the value of a math equation.
 
 	(me) math <equation>
 
-#### Weather
+#### [Weather](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/weather.js)
 
 Get the current weather.
 
