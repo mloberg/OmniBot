@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-OmniBot is a simple chat bot written in NodeJS. It was originally written to be an IRC bot for the company I work for, and then rewritten to be more extenable. It only supports IRC, but there are plans to add more connectors.
+OmniBot is a simple chat bot written in NodeJS. It was originally written as a company IRC bot, and then rewritten to be more extendable. It only supports IRC, but there are plans to add more connectors.
 
 ### Installing
 
