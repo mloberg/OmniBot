@@ -50,6 +50,12 @@
 <script src="/javascripts/modernizr.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="/javascripts/headsmart.min.js"></script>
-<script>$(document).ready(function () { $('#main_content').headsmart() })</script>
+<script>
+if (window.location.href.indexOf('http://mlo.io') === 0) {
+	window.location.href = 'http://omnibot.mlo.io{{ page.url }}';
+}
+$(document).ready(function () {
+	$('#main_content').headsmart();
+})</script>
 </body>
 </html>
