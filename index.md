@@ -27,11 +27,11 @@ bot.boot(function() {
 });
 {% endhighlight %}
 
-There is more details on the [API](api/) page.
+There is more details on the [API](/api/) page.
 
 ### Modules
 
-Modules are ways of extending OmniBot. There is a set of [default modules](modules/), but you can always write your own.
+Modules are ways of extending OmniBot. There is a set of [default modules](/modules/), but you can always write your own.
 
 ### Contributing
 
