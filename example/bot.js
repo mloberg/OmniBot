@@ -2,7 +2,7 @@
 var OmniBot = require('omnibot');
 
 // create a new bot
-var bot = new OmniBot('Bot Name', 'irc', { server: 'irc.example.com', channels: [ '#omnibot' ] });
+var bot = new OmniBot.Bot('Bot Name', 'irc', { server: 'irc.example.com', channels: [ '#omnibot' ] });
 
 // any config options from modules can be add here
 bot.config.wordnikApiKey = 'your-wordnik-api-key';

@@ -1,6 +1,6 @@
 {
   "name": "omnibot",
-  "version": "0.0.1a",
+  "version": "0.0.2",
   "dependencies": {
     "irc": "0.3.3"
   },
@@ -11,9 +11,10 @@
   },
   "main": "lib/robot",
   "author": "Matthew Loberg <loberg.matt@gmail.com> (http://mlo.io/)",
-  "description": "Simple chat robot.",
+  "description": "Simple chat bot",
   "repository": {
     "type": "git",
     "url": "git@github.com:mloberg/OmniBot.git"
-  }
+  },
+  "homepage": "http://mlo.io/OmniBot/"
 }
