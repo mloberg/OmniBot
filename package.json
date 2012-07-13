@@ -4,7 +4,10 @@
   "dependencies": {
     "irc": "0.3.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "1.3.0",
+    "should": "0.6.3"
+  },
   "optionalDependencies": {},
   "engines": {
     "node": "*"
@@ -19,9 +22,5 @@
   "homepage": "http://omnibot.mlo.io/",
   "scripts": {
     "test": "make test"
-  },
-  "devDependencies": {
-    "mocha": "1.3.0",
-    "should": "0.6.3"
   }
 }
