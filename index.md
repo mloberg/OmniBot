@@ -15,7 +15,7 @@ Create a basic bot with two lines.
 
 {% highlight javascript %}
 var OmniBot = require('omnibot'),
-	bot = new OmniBot('Bot Name', 'connector', { options: 'connection options' });
+	bot = new OmniBot.Bot('Bot Name', 'connector', { options: 'connection options' });
 {% endhighlight %}
 
 You can start the bot with the `boot` method.
@@ -35,4 +35,6 @@ Modules are ways of extending OmniBot. There is a set of [default modules](/modu
 
 ### Contributing
 
-OmniBot is an open source project. Please [fork it](https://github.com/mloberg/OmniBot) and make it better. If you find any bugs, please [report them](https://github.com/mloberg/OmniBot/issues).
+I'd love to include your contributions for OmniBot. Fork [OmniBot](https://github.com/mloberg/OmniBot), run `npm install`, and add your changes. Please make sure all existing tests pass (`make test`), and write tests for the new things you've added/changed ([Mocha](https://github.com/visionmedia/mocha)/[Should](https://github.com/visionmedia/should.js)). Once all your tests pass, open up a pull request.
+
+You can also contribute by [reporting](https://github.com/mloberg/OmniBot/issues) any bugs you find.

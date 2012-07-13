@@ -6,14 +6,14 @@ title: API
 
 #### OmniBot
 
-##### new OmniBot(nick, connector, options)
+##### new OmniBot.Bot(nick, connector, options)
 
 Create a new bot.
 
 ###### IRC
 
 {% highlight javascript %}
-var bot = new OmniBot('Bot', 'irc', {
+var bot = new OmniBot.Bot('Bot', 'irc', {
 	channels: [ '#channel' ]
 });
 {% endhighlight %}
@@ -24,7 +24,7 @@ Start the bot.
 
 {% highlight javascript %}
 bot.boot(function() {
-	// do stuff once while the bot is connected
+	// do stuff once the bot is connected
 });
 {% endhighlight %}
 
@@ -77,6 +77,14 @@ Start listening to the chatter and matching regexes.
 
 {% highlight javascript %}
 bot.listen();
+{% endhighlight %}
+
+##### bot.respondsTo(text)
+
+Check if the bot will respond to a string of text. Returns boolean.
+
+{% highlight javascript %}
+bot.respondsTo("foobar");
 {% endhighlight %}
 
 ##### bot.name
