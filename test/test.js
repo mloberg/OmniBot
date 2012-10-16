@@ -68,7 +68,7 @@ describe("Helpers", function() {
 });
 
 describe("IRC Bot", function() {
-	var bot = new OmniBot.Bot("OmniBotTester", "irc", { server: settings.server, channels: [ '#omnibot' ] }),
+	var bot = new OmniBot.Bot("OmniBotTester", "irc", { server: settings.server, channels: ['#omnibot'] });
 		listener = new irc.Client(settings.server, "OmniBotListener", { channels: [ '#omnibot' ] });
 
 	// tests
@@ -136,6 +136,24 @@ describe("IRC Bot", function() {
 			});
 			bot.listen();
 			listener.say('#omnibot', 'foo');
+		});
+
+		it("should display help", function(done) {
+			listener.addListener('message#omnibot', function(from, text, msg) {
+				if (from === "OmniBotTester" && text.match(/I respond to the following commands/)) {
+					done();
+				}
+			});
+			listener.say('#omnibot', 'OmniBotTester: help');
+		});
+
+		it("should display detailed help", function(done) {
+			listener.addListener('message#omnibot', function(from, text, msg) {
+				if (from === "OmniBotTester" && text === "test: Help description.") {
+					done();
+				}
+			});
+			listener.say('#omnibot', 'OmniBotTester: help test');
 		});
 	});
 
