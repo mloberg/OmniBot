@@ -22,3 +22,7 @@ exports.listener = (port, callback) ->
   }
   listener.connect 3, callback
   return listener
+
+exports.mockRobot = {
+  Response: ->
+}

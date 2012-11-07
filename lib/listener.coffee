@@ -1,9 +1,10 @@
 class Listener
   constructor: (@robot, @matcher, @callback) ->
 
-  call: (message) ->
+  call: (from, to, message) ->
     if match = @matcher message
-      @callback() if @callback
+      if @callback
+        @callback new @robot.Response(@robot, from, to, message, match)
       true
     else
       false

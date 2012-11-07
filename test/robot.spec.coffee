@@ -14,11 +14,10 @@ describe 'Robot', ->
         port: port,
         channels: [ '#bot' ]
       }
-      listener = helper.listener port, ->
-        bot.boot done
+      listener = helper.listener port, done
 
   afterEach (done) ->
-    bot.powerOff ->
+    bot.shutdown ->
       listener.disconnect '', ->
         server.close done
 
@@ -38,3 +37,13 @@ describe 'Robot', ->
       if nick is 'OmniBot' and text is message
         done()
     bot.say 'Listener', message
+
+  it 'will respond', (done) ->
+    bot.respond /foobar/, ->
+      done()
+    listener.say '#bot', 'OmniBot foobar'
+
+  it 'will hear', (done) ->
+    bot.hear /^foo$/, ->
+      done()
+    listener.say '#bot', 'foo'
