@@ -1,6 +1,7 @@
 Path = require 'path'
 irc = require 'irc'
 winston = require 'winston'
+httpClient = require 'scoped-http-client'
 
 {TextListener} = require './listener'
 {Response} = require './response'
@@ -35,6 +36,9 @@ class Robot
   hear: (regex, callback) ->
     @listeners.push new TextListener(@, regex, callback)
     winston.debug "#{regex.toString()}"
+
+  http: (url) ->
+    httpClient.create(url)
 
   _listen: ->
     self = @

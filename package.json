@@ -2,7 +2,8 @@
   "name": "omnibot",
   "version": "0.1.0",
   "dependencies": {
-    "irc": "0.3.3"
+    "irc": "0.3.3",
+    "scoped-http-client": "0.9.7"
   },
   "devDependencies": {
     "jasmine-node": "1.0.26",
