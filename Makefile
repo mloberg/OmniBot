@@ -1,3 +1,10 @@
-test:
-	@./node_modules/.bin/mocha -R Spec -t 5000
-.PHONY: test
+NPM_EXECUTABLE_HOME := node_modules/.bin
+
+PATH := ${NPM_EXECUTABLE_HOME}:${PATH}
+
+test: deps
+	@jasmine-node --coffee test
+
+deps:
+
+.PHONY: all
