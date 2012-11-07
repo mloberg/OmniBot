@@ -7,6 +7,11 @@ httpClient = require 'scoped-http-client'
 {Response} = require './response'
 
 class Robot
+  # Create a new chat robot
+  #
+  # name   - A String of the NICK of the robot
+  # server - A String of the irc server address
+  # config - An Object of irc server connection options
   constructor: (@name, server, config) ->
     self = @
     config.autoConnect = false
@@ -16,12 +21,29 @@ class Robot
     @connection.connect 3, ->
       self._listen()
 
+  # Public: Shutdown the chat bot
+  # 
+  # callback - A Function to call once disconnected
+  # 
+  # Returns nothing.
   shutdown: (callback) ->
     @connection.disconnect '', callback
 
+  # Public: Say something.
+  # 
+  # to  - A String of the target (room or nick)
+  # msg - A String of the message to send
+  # 
+  # Returns nothing.
   say: (to, msg) ->
     @connection.say to, msg
 
+  # Public: Respond to a message directed at the bot.
+  # 
+  # regex    - A Regex to match message
+  # callback - A Function to call if matched
+  # 
+  # Returns nothing.
   respond: (regex, callback) ->
     re = regex.toString().split('/')
     re.shift() # remove empty first item
