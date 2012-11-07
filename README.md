@@ -1,6 +1,6 @@
 # OmniBot
 
-OmniBot is a simple chat bot written in NodeJS. It only supports IRC at this time.
+OmniBot is a simple IRC chat bot written in NodeJS and CoffeeScript.
 
 ## Installing
 
@@ -8,16 +8,11 @@ OmniBot is a simple chat bot written in NodeJS. It only supports IRC at this tim
 
 ## Usage
 
-	var OmniBot = require('omnibot');
+	Robot = require 'omnibot'
 
-	var bot = new OmniBot.Bot('Bot Name', 'connector', { options: 'connection options' });
-
-	bot.config.option = '';
-
-	bot.boot(function() {
-		bot.loadModules('modules');
-		bot.listen();
-	});
+	bot = new Robot 'BotName', 'server', {
+	  channels: [ '#channel' ]
+	}
 
 ## Modules
 
@@ -25,4 +20,4 @@ Modules are ways of extending OmniBot without editing OmniBot's source code. The
 
 ## Contributing
 
-I'd love to include your contributions for OmniBot. Fork this repository, run `npm install`, copy *test/settings.example.js* to *test/settings.js* and add your changes. Please make sure all existing tests pass (`make test`), and write tests for the new things you've added/changed ([Mocha](https://github.com/visionmedia/mocha)/[Should](https://github.com/visionmedia/should.js)). Once all your tests pass, open up a pull request.
+OmniBot is Open Source. If you have something that you would like to add to OmniBot, please open a pull request. Please note that changes without passing tests will not be accepted.
