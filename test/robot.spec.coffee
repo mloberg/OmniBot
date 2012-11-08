@@ -65,3 +65,9 @@ describe 'Robot', ->
       if nick is 'OmniBot' and text is 'baz'
         done()
     listener.say '#bot', 'OmniBot bar'
+
+  it 'can access and modify config', ->
+    bot.config.configItem = 'foo';
+    expect(bot.config.configItem).toEqual('foo')
+    bot.config.configItem = 'foobar'
+    expect(bot.config.configItem).toEqual('foobar')

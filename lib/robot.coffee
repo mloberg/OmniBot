@@ -16,6 +16,7 @@ class Robot
     config.autoConnect = false
     server = config.server
     @connection = new irc.Client server, @name, config
+    @config = {}
     @listeners = []
     @Response = Response
     @setupExpress(httpd) if httpd
