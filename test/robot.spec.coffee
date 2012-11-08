@@ -66,6 +66,15 @@ describe 'Robot', ->
         done()
     listener.say '#bot', 'OmniBot bar'
 
+  it 'can load omnibot modules', (done) ->
+    bot.loadModules [ 'joke' ]
+    listener.addListener 'message#bot', (nick, text, msg) ->
+      if nick is 'OmniBot'
+        done()
+    setTimeout ->
+      listener.say '#bot', 'OmniBot joke'
+    , 1
+
   it 'can access and modify config', ->
     bot.config.configItem = 'foo';
     expect(bot.config.configItem).toEqual('foo')
