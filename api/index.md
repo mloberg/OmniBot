@@ -79,6 +79,15 @@ Load a directory of modules.
 bot.load './modules'
 {% endhighlight %}
 
+##### bot.loadModules(modules)
+
+Load a list of [OmniBot-Modules](/modules/).
+
+{% highlight coffeescript %}
+modules = [ 'joke', 'join', 'weather' ]
+bot.loadModules modules
+{% endhighlight %}
+
 ##### bot.loadFile(path, file)
 
 Load a single module.
@@ -95,6 +104,22 @@ Return a new [Scoped HTTP Client](https://github.com/technoweenie/node-scoped-ht
 bot.http("https://github.com/mloberg/OmniBot")
   .get() (err, res, body) ->
     console.log body
+{% endhighlight %}
+
+##### bot.set(name, value)
+
+Set a config item's value.
+
+{% highlight coffeescript %}
+bot.config.set 'foo', 'bar'
+{% endhighlight %}
+
+##### bot.get(name)
+
+Get a config item's value.
+
+{% highlight coffeescript %}
+bot.config.get 'foo' # => bar
 {% endhighlight %}
 
 ##### bot.httpd
