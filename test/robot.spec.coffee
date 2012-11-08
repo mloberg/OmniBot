@@ -58,3 +58,10 @@ describe 'Robot', ->
     .get() (err, res, body) ->
       expect(body).toEqual('bar')
       done()
+
+  it 'will load modules', (done) ->
+    bot.load 'test/modules'
+    listener.addListener 'message#bot', (nick, text, msg) ->
+      if nick is 'OmniBot' and text is 'baz'
+        done()
+    listener.say '#bot', 'OmniBot bar'

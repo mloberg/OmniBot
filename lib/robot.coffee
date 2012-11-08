@@ -1,4 +1,5 @@
 Path = require 'path'
+Fs = require 'fs'
 irc = require 'irc'
 httpClient = require 'scoped-http-client'
 
@@ -10,7 +11,7 @@ class Robot
   #
   # name   - A String of the NICK of the robot
   # config - An Object of irc server connection options
-  # httpd  - An object of httpd server options
+  # httpd  - A Boolean or An object of httpd server options
   constructor: (@name, config, httpd) ->
     config.autoConnect = false
     server = config.server
@@ -74,6 +75,31 @@ class Robot
   # Returns nothing.
   hear: (regex, callback) ->
     @listeners.push new TextListener(@, regex, callback)
+
+  # Public: Load a path of modules into the bot
+  # 
+  # path - A String of the path to load
+  # 
+  # Returns nothing.
+  load: (path) ->
+    if Fs.existsSync path
+      for file in Fs.readdirSync path
+        @loadFile path, file
+
+  # Load a file into the bot.
+  # 
+  # path - A String of the path
+  # file - A String of the file name to load
+  # 
+  # Returns nothing.
+  loadFile: (path, file) ->
+    ext = Path.extname file
+    full = Path.join path, Path.basename(file, ext)
+    if ext is '.coffee' or ext is '.js'
+      try
+        require(Path.resolve(full))(@)
+      catch e
+        console.log "ERROR: Unable to load #{full}: #{e}"
 
   # Public: Creates a scoped http client
   # 
