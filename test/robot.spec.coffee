@@ -1,3 +1,4 @@
+http = require 'http'
 Robot = require '../lib/robot'
 helper = require './helper'
 
@@ -10,10 +11,11 @@ describe 'Robot', ->
 
   beforeEach (done) ->
     server = helper.server port, ->
-      bot = new Robot 'OmniBot', 'localhost', {
-        port: port,
+      config =
+        server: 'localhost'
+        port: port
         channels: [ '#bot' ]
-      }
+      bot = new Robot 'OmniBot', config, true
       listener = helper.listener port, ->
         bot.start done
 
@@ -48,3 +50,13 @@ describe 'Robot', ->
     bot.hear /^foo$/, ->
       done()
     listener.say '#bot', 'foo'
+
+  it 'responds to http requests', (done) ->
+    bot.httpd.get '/foo', (req, res) ->
+      res.end "bar"
+    setTimeout ->
+      bot.http("http://localhost:8080/foo")
+      .get() (err, res, body) ->
+        expect(body).toEqual('bar')
+        done()
+    , 1

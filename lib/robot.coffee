@@ -1,6 +1,5 @@
 Path = require 'path'
 irc = require 'irc'
-winston = require 'winston'
 httpClient = require 'scoped-http-client'
 
 {TextListener} = require './listener'
@@ -10,13 +9,15 @@ class Robot
   # Create a new chat robot
   #
   # name   - A String of the NICK of the robot
-  # server - A String of the irc server address
   # config - An Object of irc server connection options
-  constructor: (@name, server, config) ->
+  # httpd  - An object of httpd server options
+  constructor: (@name, config, httpd) ->
     config.autoConnect = false
+    server = config.server
     @connection = new irc.Client server, @name, config
     @listeners = []
     @Response = Response
+    @setupExpress(httpd) if httpd
 
   # Public: Start the chat bot
   # 
@@ -35,6 +36,7 @@ class Robot
   # Returns nothing.
   shutdown: (callback) ->
     @connection.disconnect '', callback
+    @server.close() if @httpd
 
   # Public: Say something.
   # 
@@ -55,12 +57,14 @@ class Robot
     re = regex.toString().split('/')
     re.shift() # remove empty first item
     modifiers = re.pop() # pop off modifiers
+
     if re[0] and re[0][0] is '^'
-      winston.warn "Anchors don't work well with respond. Try using 'hear' instead."
+      console.log "WARNING: Anchors don't work well with respond. Try using 'hear' instead."
+
     pattern = re.join('/')
     regex = new RegExp("^#{@name}[:,]?\\s*(?:#{pattern})", modifiers);
+
     @listeners.push new TextListener(@, regex, callback)
-    winston.debug "#{regex.toString()}"
 
   # Public: Respond to any message.
   # 
@@ -70,7 +74,6 @@ class Robot
   # Returns nothing.
   hear: (regex, callback) ->
     @listeners.push new TextListener(@, regex, callback)
-    winston.debug "#{regex.toString()}"
 
   # Public: Creates a scoped http client
   # 
@@ -100,12 +103,31 @@ class Robot
   # Returns nothing
   _listen: ->
     @connection.addListener 'message', (nick, to, text, message) =>
-      winston.info "#{nick} -> #{to}: #{text}"
       # Private Message
       if to is @name
         text = "#{@name} #{text}"
         to = null
       for listener in @listeners
         listener.call nick, to, text
+
+  # Public: Setup the Express httpd server.
+  # 
+  # opts - An Object of server options
+  # 
+  # Returns nothing.
+  setupExpress: (opts) ->
+    user = opts.user
+    pass = opts.pass
+
+    Express = require 'express'
+
+    @httpd = Express()
+
+    @httpd.use Express.basicAuth(user, pass) if user and pass
+    @httpd.use Express.methodOverride()
+    @httpd.use Express.bodyParser()
+    @httpd.use @httpd.router
+
+    @server = @httpd.listen opts.port or 8080
 
 module.exports = Robot
