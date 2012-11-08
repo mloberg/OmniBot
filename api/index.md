@@ -2,173 +2,142 @@
 layout: default
 title: API
 ---
-### API
+### API Reference
 
-#### OmniBot
+#### Robot(name, config, httpd)
 
-##### new OmniBot.Bot(nick, connector, options)
+Create a new Robot.
 
-Create a new bot.
+{% highlight coffeescript %}
+Robot = require 'omnibot'
 
-###### IRC
+config =
+  server: 'irc.example.com'
+  channels: [ '#list', '#of', '#channels' ]
+  port: 6667
+  password: 'server-password'
 
-{% highlight javascript %}
-var bot = new OmniBot.Bot('Bot', 'irc', {
-	channels: [ '#channel' ]
-});
+httpd =
+  port: 8080
+  user: 'username'
+  password: 'password'
+
+bot = new Robot 'Name', config, httpd
 {% endhighlight %}
 
-##### bot.boot(callback)
+##### bot.start(callback)
 
-Start the bot.
+Start the bot and connect to IRC.
 
-{% highlight javascript %}
-bot.boot(function() {
-	// do stuff once the bot is connected
-});
+{% highlight coffeescript %}
+bot.start ->
+  # Say hi or load modules
 {% endhighlight %}
 
-##### bot.say(to, msg)
+##### bot.shutdown(callback)
 
-Say something.
+Close the IRC connection.
 
-{% highlight javascript %}
-bot.say('#irc_channel', "Message to a channel.");
-bot.say('user', "Private message to a user.");
+{% highlight coffeescript %}
+bot.shutdown ->
+  # Do some cleanup
+{% endhighlight %}
+
+##### bot.say(to, message)
+
+Send a message to a channel or user.
+
+{% highlight coffeescript %}
+bot.say '#channel', 'Message to the channel'
+bot.say 'Nick', 'Private message'
+{% endhighlight %}
+
+##### bot.respond(regex, callback)
+
+Respond to a message aimed at the bot. Callback recieves a new [Response](response.html) instance.
+
+{% highlight coffeescript %}
+bot.respond /foo/, (resp) ->
+  resp.send 'bar'
 {% endhighlight %}
 
 ##### bot.hear(regex, callback)
 
-Run a callback when a regex is matched to something a user says.
+Respond to a message. Callback recieves a new [Response](response.html) instance.
 
-{% highlight javascript %}
-bot.hear(/foobar/, function(match, room, from) {
-	// 
-});
+{% highlight coffeescript %}
+bot.hear /hello/, (resp) ->
+  resp.send 'hello'
 {% endhighlight %}
 
-There is a special regex `(me)` which is replaced with the bot's Nickname.
 
-{% highlight javascript %}
-bot.hear(/(me) hi/, function(match, room, from) {
-	bot.say(room, "Hi " + from);
-});
+##### bot.load(path)
+
+Load a directory of modules.
+
+{% highlight coffeescript %}
+bot.load './modules'
 {% endhighlight %}
 
-##### bot.loadModules(directory)
+##### bot.loadFile(path, file)
 
-Load all modules from a directory.
+Load a single module.
 
-{% highlight javascript %}
-bot.loadModules('modules');
+{% highlight coffeescript %}
+bot.load './modules', 'foo'
 {% endhighlight %}
 
-##### bot.loadFile(file)
+##### bot.http(url)
 
-Load a module.
+Return a new [Scoped HTTP Client](https://github.com/technoweenie/node-scoped-http-client).
 
-{% highlight javascript %}
-bot.loadFile('./modules/aws');
+{% highlight coffeescript %}
+bot.http("https://github.com/mloberg/OmniBot")
+  .get() (err, res, body) ->
+    console.log body
 {% endhighlight %}
 
-##### bot.listen()
+##### bot.httpd
 
-Start listening to the chatter and matching regexes.
+The bot includes an Express httpd server if a third option was passed when creating the bot.
 
-{% highlight javascript %}
-bot.listen();
-{% endhighlight %}
-
-##### bot.respondsTo(text)
-
-Check if the bot will respond to a string of text. Returns boolean.
-
-{% highlight javascript %}
-bot.respondsTo("foobar");
-{% endhighlight %}
-
-##### bot.name
-
-Get the bot's nickname.
-
-{% highlight javascript %}
-bot.name;
-{% endhighlight %}
-
-##### bot.config
-
-Add a config item for a module.
-
-{% highlight javascript %}
-bot.config.configItem = 'config value';
+{% highlight coffeescript %}
+bot.http.get '/info', (req, res) ->
+  res.end "OmniBot info"
 {% endhighlight %}
 
 ##### bot.connection
 
-Return the connector.
+The [IRC adapter](https://node-irc.readthedocs.org/en/latest/API.html).
 
-{% highlight javascript %}
-bot.connection;
-{% endhighlight %}
+#### Response
 
-##### bot.helpers
+The Response class is used when making a callback using the `Robot.respond` or `Robot.hear` methods.
 
-Return the helpers class, which right now is a wrapper for the http and https node modules.
+##### response.from
 
-{% highlight javascript %}
-bot.helpers;
-{% endhighlight %}
+The Nick of the user that sent the message.
 
-#### helpers
+##### response.to
 
-##### helpers.request(opts)
+Where the message was recieved. If a private message, it will be null.
 
-Request a web page.
+##### response.message
 
-{% highlight javascript %}
-helpers.request({
-	method: 'GET', // GET or POST, default GET
-	url: 'http://example.com/', // the request url
-	data: { }, // any data
-	type: 'text', // text or json
-	onFailure: function(err) {
-		// called when the request fails
-	},
-	onSuccess: function(body, res) {
-		// called when the request is successful
-	}
-});
-{% endhighlight %}
+The message text.
 
-##### helpers.get(opts)
+##### response.match
 
-Make a GET request.
+An array of matches from the message.
 
-{% highlight javascript %}
-helpers.get({
-	url: 'http://example.com/',
-	onSuccess: function(body, res) { }
-});
-{% endhighlight %}
+##### response.send(message)
 
-##### helpers.post(opts)
+Send a response back. Will be sent to `resp.to` if not null, otherwise `resp.from`.
 
-Make a POST request.
+##### response.random(items)
 
-{% highlight javascript %}
-helpers.post({
-	url: 'http://example.com/',
-	onSuccess: function(body, res) { }
-});
-{% endhighlight %}
+Select a random item from an array of items.
 
-##### helpers.getJSON(opts)
+##### response.http(url)
 
-Make a GET request where the content is JSON encoded.
-
-{% highlight javascript %}
-helpers.getJSON({
-	url: 'http://example.com/',
-	onSuccess: function(obj, res) { }
-});
-{% endhighlight %}
+Return a [Scoped HTTP Client](https://github.com/technoweenie/node-scoped-http-client).
