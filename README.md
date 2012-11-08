@@ -17,9 +17,11 @@ OmniBot is a simple IRC chat bot written in NodeJS and CoffeeScript.
 
 	bot = new Robot 'BotName', ircSettings
 
+	bot.start
+
 ## Modules
 
-Modules are ways of extending OmniBot without editing OmniBot's source code. There is a set of [modules](https://github.com/mloberg/OmniBot-Modules) I have written, or you can also write your own.
+Modules are ways of extending OmniBot without editing OmniBot's source code. There is a set of [modules](https://github.com/mloberg/OmniBot-Modules) I have written, or you can also write your own. Some Hubot scripts may also be compatible with OmniBot.
 
 ## Contributing
 
