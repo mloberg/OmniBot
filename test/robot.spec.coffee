@@ -14,7 +14,8 @@ describe 'Robot', ->
         port: port,
         channels: [ '#bot' ]
       }
-      listener = helper.listener port, done
+      listener = helper.listener port, ->
+        bot.start done
 
   afterEach (done) ->
     bot.shutdown ->

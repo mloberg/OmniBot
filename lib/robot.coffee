@@ -13,13 +13,20 @@ class Robot
   # server - A String of the irc server address
   # config - An Object of irc server connection options
   constructor: (@name, server, config) ->
-    self = @
     config.autoConnect = false
     @connection = new irc.Client server, @name, config
     @listeners = []
     @Response = Response
-    @connection.connect 3, ->
-      self._listen()
+
+  # Public: Start the chat bot
+  # 
+  # callback - A Function to run once started
+  # 
+  # Returns nothing.
+  start: (callback) ->
+    @connection.connect 3, =>
+      callback() if callback
+      @_listen()
 
   # Public: Shutdown the chat bot
   # 
@@ -55,22 +62,50 @@ class Robot
     @listeners.push new TextListener(@, regex, callback)
     winston.debug "#{regex.toString()}"
 
+  # Public: Respond to any message.
+  # 
+  # regex    - A Regex to match message
+  # callback - A Function to call if matched
+  # 
+  # Returns nothing.
   hear: (regex, callback) ->
     @listeners.push new TextListener(@, regex, callback)
     winston.debug "#{regex.toString()}"
 
+  # Public: Creates a scoped http client
+  # 
+  # url - String URL to access
+  # 
+  # Examples:
+  #   res.http("http://example.com")
+  #     # set a single header
+  #     .header('Authorization', 'bearer abcdef')
+  #     # set multiple headers
+  #     .headers(Authorization: 'bearer abcdef', Accept: 'application/json')
+  #     # add URI query parameters
+  #     .query(a: 1, b: 'foo & bar')
+  #     # make the actual request
+  #     .get() (err, res, body) ->
+  #       console.log body
+  #     # or, you can post data
+  #     .post(data) (err, res, body) ->
+  #       console.log body
+  # 
+  # Returns a ScopedClient instance.
   http: (url) ->
     httpClient.create(url)
 
+  # Create the event listeners in irc.
+  # 
+  # Returns nothing
   _listen: ->
-    self = @
-    @connection.addListener 'message', (nick, to, text, message) ->
+    @connection.addListener 'message', (nick, to, text, message) =>
       winston.info "#{nick} -> #{to}: #{text}"
       # Private Message
       if to is @name
         text = "#{@name} #{text}"
         to = null
-      for listener in self.listeners
+      for listener in @listeners
         listener.call nick, to, text
 
 module.exports = Robot
