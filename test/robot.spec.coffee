@@ -54,9 +54,7 @@ describe 'Robot', ->
   it 'responds to http requests', (done) ->
     bot.httpd.get '/foo', (req, res) ->
       res.end "bar"
-    setTimeout ->
-      bot.http("http://localhost:8080/foo")
-      .get() (err, res, body) ->
-        expect(body).toEqual('bar')
-        done()
-    , 1
+    bot.http("http://localhost:8080/foo")
+    .get() (err, res, body) ->
+      expect(body).toEqual('bar')
+      done()
