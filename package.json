@@ -1,6 +1,6 @@
 {
   "name": "omnibot",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "dependencies": {
     "irc": "0.3.3",
     "scoped-http-client": "0.9.7",
@@ -12,7 +12,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": "*"
+    "node": ">=0.7.2"
   },
   "main": "lib/robot",
   "author": "Matthew Loberg <loberg.matt@gmail.com> (http://mlo.io/)",
