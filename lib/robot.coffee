@@ -40,6 +40,23 @@ class Robot
     @connection.disconnect '', callback
     @server.close() if @httpd
 
+  # Public: Set a config item.
+  # 
+  # name  - A String of the config item name
+  # value - A Mixed of the config item value
+  # 
+  # Returns nothing.
+  set: (name, value) ->
+    @config[name] = value
+
+  # Public: Get a config item.
+  # 
+  # name - A String of the config item name
+  # 
+  # Returns Mixed item value
+  get: (name) ->
+    @config[name]
+
   # Public: Say something.
   # 
   # to  - A String of the target (room or nick)

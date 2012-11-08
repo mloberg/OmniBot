@@ -76,7 +76,5 @@ describe 'Robot', ->
     , 1
 
   it 'can access and modify config', ->
-    bot.config.configItem = 'foo';
-    expect(bot.config.configItem).toEqual('foo')
-    bot.config.configItem = 'foobar'
-    expect(bot.config.configItem).toEqual('foobar')
+    bot.set 'foo', 'bar'
+    expect(bot.get('foo')).toEqual('bar')
