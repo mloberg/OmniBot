@@ -2,6 +2,7 @@ Path = require 'path'
 Fs = require 'fs'
 irc = require 'irc'
 httpClient = require 'scoped-http-client'
+winston = require 'winston'
 
 {TextListener} = require './listener'
 {Response} = require './response'
@@ -19,7 +20,12 @@ class Robot
     @config = {}
     @listeners = []
     @Response = Response
-    @setupExpress(httpd) if httpd
+    @logger = new (winston.Logger) {
+      transports: [
+        new (winston.transports.Console)()
+      ]
+    }
+    @setupConnect(httpd) if httpd
 
   # Public: Start the chat bot
   # 
@@ -28,6 +34,7 @@ class Robot
   # Returns nothing.
   start: (callback) ->
     @connection.connect 3, =>
+      @logger.info "Connected to the server"
       callback() if callback
       @_listen()
 
@@ -37,8 +44,10 @@ class Robot
   # 
   # Returns nothing.
   shutdown: (callback) ->
-    @connection.disconnect '', callback
-    @server.close() if @httpd
+    @connection.disconnect '', =>
+      @logger.info "Disconnected from server"
+      callback() if callback
+    @server.close() if @server
 
   # Public: Set a config item.
   # 
@@ -84,6 +93,7 @@ class Robot
     regex = new RegExp("^#{@name}[:,]?\\s*(?:#{pattern})", modifiers);
 
     @listeners.push new TextListener(@, regex, callback)
+    @logger.debug regex.toString()
 
   # Public: Respond to any message.
   # 
@@ -93,6 +103,7 @@ class Robot
   # Returns nothing.
   hear: (regex, callback) ->
     @listeners.push new TextListener(@, regex, callback)
+    @logger.debug regex.toString()
 
   # Public: Load a path of modules into the bot
   # 
@@ -126,8 +137,8 @@ class Robot
     if ext is '.coffee' or ext is '.js'
       try
         require(Path.resolve(full))(@)
-      catch e
-        console.log "ERROR: Unable to load #{full}: #{e}"
+      catch err
+        @logger.error "Unable to load #{full}", err
 
   # Public: Creates a scoped http client
   # 
@@ -164,24 +175,37 @@ class Robot
       for listener in @listeners
         listener.call nick, to, text
 
-  # Public: Setup the Express httpd server.
+  # Public: Setup the Connect httpd server.
   # 
   # opts - An Object of server options
   # 
   # Returns nothing.
-  setupExpress: (opts) ->
+  setupConnect: (opts) ->
     user = opts.user
     pass = opts.pass
 
-    Express = require 'express'
+    Connect = require 'connect'
+    Connect.router = require 'connect_router'
 
-    @httpd = Express()
+    @connect = Connect()
 
-    @httpd.use Express.basicAuth(user, pass) if user and pass
-    @httpd.use Express.methodOverride()
-    @httpd.use Express.bodyParser()
-    @httpd.use @httpd.router
+    @connect.use Connect.basicAuth(user, pass) if user and pass
+    @connect.use Connect.bodyParser()
+    @connect.use Connect.router (app) =>
+      @router =
+        get: (route, callback) =>
+          @logger.debug "Registered route: GET #{route}"
+          app.get route, callback
+        post: (route, callback) =>
+          @logger.debug "Registered route: POST #{route}"
+          app.get route, callback
+        put: (route, callback) =>
+          @logger.debug "Registered route: PUT #{route}"
+          app.put route, callback
+        delete: (route, callback) =>
+          @logger.debug "Registered route: DELETE #{route}"
+          app.delete route, callback
 
-    @server = @httpd.listen opts.port or 8080
+    @server = @connect.listen opts.port or 8080
 
 module.exports = Robot

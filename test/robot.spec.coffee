@@ -52,7 +52,7 @@ describe 'Robot', ->
     listener.say '#bot', 'foo'
 
   it 'responds to http requests', (done) ->
-    bot.httpd.get '/foo', (req, res) ->
+    bot.router.get '/foo', (req, res) ->
       res.end "bar"
     bot.http("http://localhost:8080/foo")
     .get() (err, res, body) ->

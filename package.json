@@ -1,12 +1,14 @@
 {
   "name": "omnibot",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "dependencies": {
     "coffee-script": "1.4.0",
     "irc": "0.3.3",
     "scoped-http-client": "0.9.7",
-    "express": "3.0.1",
-    "omnibot-modules": "0.0.1"
+    "connect": "2.6.2",
+    "connect_router": "1.8.7",
+    "omnibot-modules": "0.0.1",
+    "winston": "0.6.2"
   },
   "devDependencies": {
     "jasmine-node": "1.0.26",
