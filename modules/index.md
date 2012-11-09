@@ -4,67 +4,104 @@ title: Modules
 ---
 This is a list of official [OmniBot modules](https://github.com/mloberg/OmniBot-Modules). If you have written a module and feel it should be included in the official list, please open a [pull request](https://github.com/mloberg/OmniBot-Modules/pull/new/master).
 
-#### [AWS Status](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/aws.js)
+#### [aws](https://github.com/mloberg/OmniBot-Modules/blob/master/src/modules/aws.coffee)
 
-Get the status of AWS.
+Retrieve the status of AWS services.
 
-**Commands**
+##### Dependencies
 
-	(me) AWS status
+* "yql": "0.4.7"
 
-#### [Funsies](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/funsies.js)
+##### Configuration
 
-A collection of fun modules.
+* **aws_services** - Array of service names
 
-**Commands**
+##### Commands
 
-	trap
-	alot
-	chuck norris
+* omnibot aws status
 
-#### [Google](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/google.js)
+##### Author
 
-Get the first item on Google for a search term.
+* [mloberg](http://mlo.io/)
 
-**Commands**
+#### [hackernews](https://github.com/mloberg/OmniBot-Modules/blob/master/src/modules/hackernews.coffee)
 
-	(me) google <term>
-	google <term>
+Retrieve the top stories from Hacker News.
 
-#### [Hangman](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/hangman.js)
+##### Dependencies
 
-Play a game of hangman.
+* "sax": "0.4.2"
 
-**Commands**
+##### Configuration
 
-	(me) hangman
-	hangman <guess>
+* none
 
-**Configuration**
+##### Commands
 
-	wordnikApiKey
+* omnibot HN [&lt;count>]
 
-#### [Join](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/join.js)
+##### Author
 
-Welcome a user to the room.
+* [mloberg](http://mlo.io/)
 
-#### [Math](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/math.js)
+#### [join](https://github.com/mloberg/OmniBot-Modules/blob/master/src/modules/join.coffee)
 
-The the value of a math equation.
+Say hello to users as they join.
 
-**Commands**
+##### Dependencies
 
-	(me) math <equation>
+* none
 
-#### [Weather](https://github.com/mloberg/OmniBot-Modules/blob/master/modules/weather.js)
+##### Configuration
 
-Get the current weather.
+* none
 
-**Commands**
+##### Commands
 
-	(me) weather [zip code]
-	weather [zip code]
+* none
 
-**Configuration**
+##### Author
 
-	zipCode
+* [mloberg](http://mlo.io/)
+
+#### [joke](https://github.com/mloberg/OmniBot-Modules/blob/master/src/modules/joke.coffee)
+
+Tell some jokes.
+
+##### Dependencies
+
+* none
+
+##### Configuration
+
+* none
+
+##### Commands
+
+* omnibot joke
+
+##### Author
+
+* [mloberg](http://mlo.io/)
+
+#### [weather](https://github.com/mloberg/OmniBot-Modules/blob/master/src/modules/weather.coffee)
+
+Retrieve the weather.
+
+##### Dependencies
+
+* none
+
+##### Configuration
+
+* **weather_zip** - Zip code to get weather for
+
+##### Commands
+
+* omnibot forecast [&lt;city>] - Get the Forecast
+* omnibot weather [&lt;city>] - Get the current conditions
+
+##### Author
+
+* [mloberg](http://mlo.io/)
+
