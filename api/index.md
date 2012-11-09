@@ -122,12 +122,12 @@ Get a config item's value.
 bot.get 'foo' # => bar
 {% endhighlight %}
 
-##### bot.httpd
+##### bot.router
 
-The bot includes an Express httpd server if a third option was passed when creating the bot.
+The bot includes a Connect httpd server if a third option was passed when creating the bot.
 
 {% highlight coffeescript %}
-bot.http.get '/info', (req, res) ->
+bot.router.get '/info', (req, res) ->
   res.end "OmniBot info"
 {% endhighlight %}
 
