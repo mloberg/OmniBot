@@ -104,6 +104,16 @@ class Robot
       for file in Fs.readdirSync path
         @loadFile path, file
 
+  # Public: Load modules from omnibot-modules
+  # 
+  # modules - An array of modules to load
+  # 
+  # Returns nothing.
+  loadModules: (modules) ->
+    path = './node_modules/omnibot-modules/src/modules'
+    for module in modules
+      @loadFile path, "#{module}.coffee"
+
   # Load a file into the bot.
   # 
   # path - A String of the path

@@ -5,7 +5,8 @@
     "coffee-script": "1.4.0",
     "irc": "0.3.3",
     "scoped-http-client": "0.9.7",
-    "express": "3.0.1"
+    "express": "3.0.1",
+    "omnibot-modules": "0.0.1"
   },
   "devDependencies": {
     "jasmine-node": "1.0.26",

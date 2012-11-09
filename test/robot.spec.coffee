@@ -64,7 +64,18 @@ describe 'Robot', ->
     listener.addListener 'message#bot', (nick, text, msg) ->
       if nick is 'OmniBot' and text is 'baz'
         done()
-    listener.say '#bot', 'OmniBot bar'
+    setTimeout ->
+      listener.say '#bot', 'OmniBot bar'
+    , 1
+
+  it 'can load omnibot modules', (done) ->
+    bot.loadModules [ 'joke' ]
+    listener.addListener 'message#bot', (nick, text, msg) ->
+      if nick is 'OmniBot' and text.match /\?$/
+        done()
+    setTimeout ->
+      listener.say '#bot', 'OmniBot joke'
+    , 1
 
   it 'can access and modify config', ->
     bot.set 'foo', 'bar'
