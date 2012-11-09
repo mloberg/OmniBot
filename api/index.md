@@ -111,7 +111,7 @@ bot.http("https://github.com/mloberg/OmniBot")
 Set a config item's value.
 
 {% highlight coffeescript %}
-bot.config.set 'foo', 'bar'
+bot.set 'foo', 'bar'
 {% endhighlight %}
 
 ##### bot.get(name)
@@ -119,7 +119,7 @@ bot.config.set 'foo', 'bar'
 Get a config item's value.
 
 {% highlight coffeescript %}
-bot.config.get 'foo' # => bar
+bot.get 'foo' # => bar
 {% endhighlight %}
 
 ##### bot.httpd
