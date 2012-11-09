@@ -1,5 +1,7 @@
 # OmniBot
 
+[![Build Status](https://secure.travis-ci.org/mloberg/OmniBot.png?branch=master)](https://travis-ci.org/mloberg/OmniBot)
+
 OmniBot is a simple IRC chat bot written in NodeJS and CoffeeScript.
 
 ## Installing
