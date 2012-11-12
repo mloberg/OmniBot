@@ -4,24 +4,27 @@ irc        = require 'irc'
 httpClient = require 'scoped-http-client'
 winston    = require 'winston'
 
+Brain          = require './brain'
 Response       = require './response'
 {TextListener} = require './listener'
 
 class Robot
-  # Create a new chat robot
+  # Create a new chat robot.
   #
   # name   - A String of the NICK of the robot
   # config - An Object of irc server connection options
   # httpd  - A Boolean or An object of httpd server options
   constructor: (@name, config, httpd) ->
-    @config = {}
+    @brain     = new Brain
+    @config    = {}
     @listeners = []
-    @Response = Response
-    @logger = new (winston.Logger) {
+    @Response  = Response
+    @logger    = new (winston.Logger) {
       transports: [
         new (winston.transports.Console)()
       ]
     }
+
     @setupIRC config
     @setupConnect(httpd) if httpd
 
@@ -31,7 +34,7 @@ class Robot
   # 
   # Returns nothing.
   start: (callback) ->
-    @connection.connect 3, =>
+    @connection.connect =>
       @logger.info "Connected to the server"
       callback() if callback
 
@@ -41,10 +44,11 @@ class Robot
   # 
   # Returns nothing.
   shutdown: (callback) ->
-    @connection.disconnect '', =>
+    @connection.disconnect =>
       @logger.info "Disconnected from server"
       callback() if callback
-    @server.close() if @server
+      @server.close() if @server
+      @brain.close()
 
   # Public: Set a config item.
   # 
