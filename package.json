@@ -1,6 +1,6 @@
 {
   "name": "omnibot",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "dependencies": {
     "coffee-script": "1.4.0",
     "irc": "0.3.3",

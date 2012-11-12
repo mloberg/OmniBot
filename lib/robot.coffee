@@ -1,11 +1,11 @@
-Path = require 'path'
-Fs = require 'fs'
-irc = require 'irc'
+Path       = require 'path'
+Fs         = require 'fs'
+irc        = require 'irc'
 httpClient = require 'scoped-http-client'
-winston = require 'winston'
+winston    = require 'winston'
 
+Response       = require './response'
 {TextListener} = require './listener'
-{Response} = require './response'
 
 class Robot
   # Create a new chat robot
@@ -14,9 +14,6 @@ class Robot
   # config - An Object of irc server connection options
   # httpd  - A Boolean or An object of httpd server options
   constructor: (@name, config, httpd) ->
-    config.autoConnect = false
-    server = config.server
-    @connection = new irc.Client server, @name, config
     @config = {}
     @listeners = []
     @Response = Response
@@ -25,9 +22,10 @@ class Robot
         new (winston.transports.Console)()
       ]
     }
+    @setupIRC config
     @setupConnect(httpd) if httpd
 
-  # Public: Start the chat bot
+  # Public: Connect the bot to the server.
   # 
   # callback - A Function to run once started
   # 
@@ -36,9 +34,8 @@ class Robot
     @connection.connect 3, =>
       @logger.info "Connected to the server"
       callback() if callback
-      @_listen()
 
-  # Public: Shutdown the chat bot
+  # Public: Shutdown the chat bot.
   # 
   # callback - A Function to call once disconnected
   # 
@@ -163,19 +160,24 @@ class Robot
   http: (url) ->
     httpClient.create(url)
 
-  # Create the event listeners in irc.
+  # Setup the IRC client.
   # 
-  # Returns nothing
-  _listen: ->
-    @connection.addListener 'message', (nick, to, text, message) =>
-      # Private Message
+  # config - An Object of IRC connection options.
+  # 
+  # Returns nothing.
+  setupIRC: (config) ->
+    config.autoConnect = false # Don't connect until start() is called
+    server = config.server
+    @connection = new irc.Client server, @name, config
+
+    @connection.addListener 'message', (nick, to, text, raw) =>
       if to is @name
         text = "#{@name} #{text}"
         to = null
       for listener in @listeners
         listener.call nick, to, text
 
-  # Public: Setup the Connect httpd server.
+  # Setup the Connect httpd server.
   # 
   # opts - An Object of server options
   # 

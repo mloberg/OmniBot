@@ -1,4 +1,4 @@
-{Response} = require '../lib/response'
+Response = require '../lib/response'
 helper = require './helper'
 httpClient = require 'scoped-http-client'
 

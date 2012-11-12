@@ -39,5 +39,5 @@ class TextListener extends Listener
     @matcher = (message) ->
       message.match @regex
 
-exports.Listener = Listener
+exports.Listener     = Listener
 exports.TextListener = TextListener

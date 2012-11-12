@@ -33,4 +33,4 @@ class Response
   http: (url) ->
     @robot.http(url)
 
-exports.Response = Response
+module.exports = Response
